@@ -1,0 +1,24 @@
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  entry: './app/entry.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.join(__dirname, 'public/javascripts')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env']
+          }
+        }
+      }
+    ]
+  }
+};
