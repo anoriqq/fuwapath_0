@@ -8,7 +8,6 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('passport');
-const bodyParser = require('body-parser');
 
 const SlackStrategy = require('passport-slack-oauth2').Strategy;
 const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
@@ -42,8 +41,6 @@ const logoutRouter = require('./routes/logout');
 
 const app = express();
 app.use(helmet());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
