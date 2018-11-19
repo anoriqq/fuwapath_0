@@ -9,6 +9,19 @@ const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('passport');
 
+// モデルの読み込み
+const User = require('./models/user');
+const Event = require('./models/event');
+const Status = require('./models/Statuses');
+User.sync().then(()=>{
+  Event.belongsTo(User, {foreignKey: 'userId'});
+  Event.sync();
+  Status.sync().then(()=>{
+    Event.belongsTo(Status, {foreignKey: 'statusCode'});
+    Event.sync();
+  });
+});
+
 const SlackStrategy = require('passport-slack-oauth2').Strategy;
 const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
@@ -29,7 +42,14 @@ passport.use(new SlackStrategy({
 },
 (accessToken, refreshToken, profile, done)=>{
   process.nextTick(function(){
-    return done(null, profile);
+    User.upsert({
+      userId: profile.id,
+      username: profile.user.name,
+      teamId: profile.team.id,
+      teamname: profile.team.name
+    }).then(()=>{
+      done(null, profile);
+    });
   });
 }
 ));
