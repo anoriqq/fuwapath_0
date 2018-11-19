@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "webpack": "build",
+    "build": "webpack",
     "test": "mocha -t 10000"
   },
   "dependencies": {
