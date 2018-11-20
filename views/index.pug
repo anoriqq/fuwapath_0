@@ -1,6 +1,7 @@
 extends _layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  a(href="/login") ログイン
+  if user
+    a(href="/user").btn.btn-primary ユーザーページでステータスを確認
+  else
+    a(href="/login").btn.btn-primary ログインしてステータスを更新

@@ -94,7 +94,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\n//# sourceURL=webpack:///./app/entry.js?");
+eval("\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\n(0, _jquery2.default)('#status-add-button').click(function () {\n  var statusCodeForm = (0, _jquery2.default)('#status-code-form');\n  var statusSubForm = (0, _jquery2.default)('#status-sub-form');\n  var statusCode = statusCodeForm.val();\n  var statusSub = statusSubForm.val();\n\n  _jquery2.default.post('/event', {\n    statusCode: statusCode,\n    statusSub: statusSub\n  }, function (data) {\n    console.log(data);\n    statusCodeForm.selectedIndex = 0;\n    statusSubForm.selectedIndex = 0;\n  });\n});\n\n//# sourceURL=webpack:///./app/entry.js?");
 
 /***/ }),
 

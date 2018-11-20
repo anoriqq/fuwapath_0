@@ -9,6 +9,17 @@ html
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO",
     crossorigin="anonymous")
-  body
+  body.bg-dark.text-light
+    nav.navbar.navbar-dark.bg-dark
+      div.navbar-header
+        a(href="/").navbar-brand.nav-link 予定調整くん
+      ul.navbar-nav
+        if user
+          li.nav-item
+            a(href="/logout").nav-link #{user.user.name} をログアウト
+        else
+          li.nav-item
+            a(href="/login").nav-link ログイン
     div.container
       block content
+    script(src="/javascripts/bundle.js")
