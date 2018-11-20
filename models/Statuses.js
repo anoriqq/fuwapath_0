@@ -3,12 +3,12 @@ const loader = require('./_sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const Statuses = loader.database.define('statuses', {
-  statusCode: {
+  status_code: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     allowNull: false
   },
-  statusName: {
+  status_name: {
     type: Sequelize.STRING,
     allowNull: false
   }

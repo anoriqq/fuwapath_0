@@ -3,13 +3,13 @@ const loader = require('./_sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const Event = loader.database.define('events', {
-  eventId: {
+  event_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false
   },
-  userId: {
+  user_id: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -17,7 +17,7 @@ const Event = loader.database.define('events', {
     type: Sequelize.DATE,
     allowNull: false
   },
-  statusCode: {
+  status_code: {
     type: Sequelize.INTEGER,
     allowNull: false
   }

@@ -23,3 +23,15 @@ block content
       div.input-group-append
         button(type="button")#status-add-button.btn.btn-outline-light 記録
   h5 行動ログ
+  - var hasEvent = events.length > 0
+  if hasEvent
+    table.table
+      tr
+        th タイムスタンプ
+        th ステータス
+      each event in events
+        tr
+          td #{event.timestamp}
+          td #{event.status.status_name}
+  else
+    p ログがありません

@@ -3,21 +3,21 @@ const loader = require('./_sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const User = loader.database.define('users', {
-  userId: {
+  user_id: {
     type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },
-  username: {
+  user_name: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  teamId: {
+  team_id: {
     type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },
-  teamname: {
+  team_name: {
     type: Sequelize.STRING,
     allowNull: false
   }

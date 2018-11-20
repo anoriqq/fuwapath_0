@@ -14,10 +14,10 @@ const User = require('./models/user');
 const Event = require('./models/event');
 const Status = require('./models/Statuses');
 User.sync().then(()=>{
-  Event.belongsTo(User, {foreignKey: 'userId'});
+  Event.belongsTo(User, {foreignKey: 'user_id'});
   Event.sync();
   Status.sync().then(()=>{
-    Event.belongsTo(Status, {foreignKey: 'statusCode'});
+    Event.belongsTo(Status, {foreignKey: 'status_code'});
     Event.sync();
   });
 });
@@ -43,10 +43,10 @@ passport.use(new SlackStrategy({
 (accessToken, refreshToken, profile, done)=>{
   process.nextTick(function(){
     User.upsert({
-      userId: profile.id,
-      username: profile.user.name,
-      teamId: profile.team.id,
-      teamname: profile.team.name
+      user_id: profile.id,
+      user_name: profile.user.name,
+      team_id: profile.team.id,
+      team_name: profile.team.name
     }).then(()=>{
       done(null, profile);
     });

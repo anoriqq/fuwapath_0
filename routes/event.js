@@ -11,9 +11,9 @@ router.post('/', authenticationEnsurer, (req, res, next)=>{
   const statusSub = req.body.statusSub;
   statusCode = Number(statusSub)*100+Number(statusCode);
   Event.upsert({
-    userId: userId,
+    user_id: userId,
     timestamp: timestamp,
-    statusCode: statusCode
+    status_code: statusCode
   }).then(()=>{
     res.json({status:'OK'});
   });
