@@ -1,16 +1,15 @@
 'use strict';
 import $ from 'jquery';
+var global = Function('return this;')();
+global.jQuery = $;
+import Tabulator from 'tabulator-tables';
 
 $('#status-add-button').click(()=>{
-  const statusCodeForm = $('#status-code-form');
-  const statusSubForm = $('#status-sub-form');
-  const statusCode = statusCodeForm.val();
-  const statusSub = statusSubForm.val();
+  const statusCode = $('#status-code-form').val();
+  const statusSub = $('#status-sub-form').val();
   $.post('/event',
     {statusCode: statusCode, statusSub: statusSub},
     (data)=>{
       console.log(data);
-      statusCodeForm.selectedIndex = 0;
-      statusSubForm.selectedIndex = 0;
     });
 });
