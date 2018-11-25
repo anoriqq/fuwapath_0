@@ -19,8 +19,7 @@ router.get('/', authenticationEnsurer, function(req, res, next){
   }).then((events)=>{
     res.render('user', {
       title: 'ユーザーページ',
-      user: req.user,
-      events: events
+      user: req.user
     });
   });
 });
