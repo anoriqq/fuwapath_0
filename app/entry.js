@@ -10,6 +10,17 @@ $('#status-add-button').click(()=>{
   $.post('/event',
     {statusCode: statusCode, statusSub: statusSub},
     (data)=>{
-      console.log(data);
+      table.setData();
     });
+});
+
+var table_columns = [
+  {title:'タイムスタンプ', field:'timestamp', sorter:'date'},
+  {title:'ステータス', field:'status.status_name', align:'center'}
+];
+
+var table = new Tabulator('#log-table', {
+  columns:table_columns,
+  ajaxURL:'http://localhost:8000/event/get',
+  placeholder:'ログがありません'
 });
