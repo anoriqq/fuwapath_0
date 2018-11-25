@@ -3,6 +3,25 @@ const request = require('supertest');
 const app = require('../app');
 const passportStub = require('passport-stub');
 
+describe('/', ()=>{
+  before(()=>{
+    passportStub.install(app);
+    passportStub.login({user:{name: 'testuser'}});
+  });
+  after(()=>{
+    passportStub.logout();
+    passportStub.uninstall(app);
+  });
+
+  it('ログイン時はユーザーページへのリンクが含まれる', (done)=>{
+    request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(/<a class="btn btn-primary" href="\/user">/)
+      .expect(200, done);
+  });
+});
+
 describe('/login', ()=>{
   before(()=>{
     passportStub.install(app);
