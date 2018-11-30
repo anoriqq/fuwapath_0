@@ -22,5 +22,6 @@ var table_columns = [
 var table = new Tabulator('#log-table', {
   columns:table_columns,
   ajaxURL:'http://localhost:8000/event/get',
+  layout:'fitColumns',
   placeholder:'ログがありません'
 });
