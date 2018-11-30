@@ -56,7 +56,6 @@ passport.use(new SlackStrategy({
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
-const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const eventRouter = require('./routes/event');
 
@@ -79,12 +78,11 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
-app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/event', eventRouter);
 
 app.get('/auth/slack', passport.authenticate('Slack'));
-app.get('/auth/slack/callback', passport.authenticate('Slack', {failureRedirect: '/login'}), (req, res)=>res.redirect('/'));
+app.get('/auth/slack/callback', passport.authenticate('Slack', {failureRedirect: '/index'}), (req, res)=>res.redirect('/'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){

@@ -4,4 +4,4 @@ block content
   if user
     a(href="/user").btn.btn-primary ユーザーページでステータスを確認
   else
-    a(href="/login").btn.btn-primary ログインしてステータスを更新
+    button(type="button" data-toggle="modal" data-target="#loginModal")#login-button.btn.btn-secondary ログインしてステータスを更新

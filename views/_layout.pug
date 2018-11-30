@@ -9,6 +9,9 @@ html
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO",
     crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous")
   body.bg-dark.text-light
     nav.navbar.navbar-dark.bg-dark
       div.navbar-header
@@ -19,7 +22,19 @@ html
             a(href="/logout").nav-link #{user.user.name} をログアウト
         else
           li.nav-item
-            a(href="/login").nav-link ログイン
+            button(type="button" data-toggle="modal" data-target="#loginModal")#login-button.btn.btn-secondary ログイン
+    div(tabindex="-1" role="dialog" aria-labelledby="loginModal")#loginModal.modal.fade
+      div(role="document").modal-dialog.rounded
+        div.modal-content.bg-secondary
+          div.modal-header
+            h5#exampleModalLabel.modal-title ログイン
+            button(type="button" data-dismiss="modal" aria-label="閉じる").close
+              span(aria-hidden="true") &times;
+          div.modal-body
+            a(href="/auth/slack")
+              img(alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png")
+          div.modal-footer
+            button(type="button" data-dismiss="modal").btn.btn-secondary 閉じる
     div.container
       block content
     script(src="/javascripts/bundle.js")
