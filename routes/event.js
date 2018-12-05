@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authenticationEnsurer = require('./_authentication-ensurer');
 const Event = require('../models/event');
-const Statuses = require('../models/Statuses');
+const Statuses = require('../models/statuses');
 const moment = require('moment-timezone');
 
 router.post('/', authenticationEnsurer, (req, res, next)=>{
