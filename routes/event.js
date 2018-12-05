@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticationEnsurer = require('./_authentication-ensurer');
 const Event = require('../models/event');
 const Statuses = require('../models/Statuses');
+const moment = require('moment-timezone');
 
 router.post('/', authenticationEnsurer, (req, res, next)=>{
   const userId = req.user.user.id;
@@ -29,9 +30,12 @@ router.get('/get', authenticationEnsurer, (req, res, next)=>{
     where:{
       user_id: req.user.user.id
     },
-    order: [['"event_id"', 'DESC']]
-  }).then((events)=>{
-    res.json(events);
+    order:[['"event_id"', 'DESC']]
+  }).then((data)=>{
+    for(let i=0;i<data.length;i++){
+      data[i].dataValues.timestamp = moment.tz(data[i].createdAt, 'Asia/Tokyo').format();
+    }
+    res.json(data);
   });
 });
 

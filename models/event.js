@@ -20,13 +20,11 @@ const Event = loader.database.define('events', {
   status_code: {
     type: Sequelize.INTEGER,
     allowNull: false
-  }
+  },
+  createdAt: Sequelize.DATE,
+  updatedAt: Sequelize.DATE
 }, {
-  freezeTableName: true,
-  timestamps: false,
-  indexes: [{
-    fields: ['timestamp']
-  }]
+  freezeTableName: true
 });
 
 module.exports = Event;
