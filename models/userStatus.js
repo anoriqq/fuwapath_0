@@ -2,26 +2,27 @@
 const loader = require('./_sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const User = loader.database.define('users', {
+const UserStatus = loader.database.define('user_status', {
+  status_code: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
   user_id: {
     type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },
-  user_name: {
+  status_name: {
     type: Sequelize.STRING,
     allowNull: false
   },
   created_at:Sequelize.DATE,
-  updated_at:Sequelize.DATE,
-  deleted_at:Sequelize.DATE
+  updated_at:Sequelize.DATE
 }, {
   freezeTableName: true,
   timestamps: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at',
-  deletedAt: 'deleted_at',
-  paranoid: true
+  updatedAt: 'updated_at'
 });
 
-module.exports = User;
+module.exports = UserStatus;

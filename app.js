@@ -12,13 +12,21 @@ const passport = require('passport');
 // モデルの読み込み
 const User = require('./models/user');
 const Event = require('./models/event');
+const UserAuth = require('./models/userAuth');
+const UserStatus = require('./models/userStatus');
 const Status = require('./models/Statuses');
 User.sync().then(()=>{
+  UserAuth.belongsTo(User, {foreignKey: 'user_id'});
+  UserAuth.sync();
+  UserStatus.belongsTo(User, {foreignKey: 'user_id'});
+  UserStatus.sync();
   Event.belongsTo(User, {foreignKey: 'user_id'});
   Event.sync();
   Status.sync().then(()=>{
     Event.belongsTo(Status, {foreignKey: 'status_code'});
     Event.sync();
+    UserStatus.belongsTo(Status, {foreignKey: 'status_code'});
+    UserStatus.sync();
   });
 });
 

@@ -30,7 +30,7 @@ router.get('/get', authenticationEnsurer, (req, res, next)=>{
     where:{
       user_id: req.user.user.id
     },
-    order:[['"event_id"', 'DESC']]
+    order:[['"timestamp"', 'DESC']]
   }).then((data)=>{
     for(let i=0;i<data.length;i++){
       data[i].dataValues.timestamp = moment.tz(data[i].createdAt, 'Asia/Tokyo').format();

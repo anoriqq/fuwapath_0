@@ -2,26 +2,27 @@
 const loader = require('./_sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const User = loader.database.define('users', {
+const UserAuth = loader.database.define('user_auth', {
   user_id: {
     type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },
-  user_name: {
+  login_id: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  password: {
     type: Sequelize.STRING,
     allowNull: false
   },
   created_at:Sequelize.DATE,
-  updated_at:Sequelize.DATE,
-  deleted_at:Sequelize.DATE
+  updated_at:Sequelize.DATE
 }, {
   freezeTableName: true,
   timestamps: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at',
-  deletedAt: 'deleted_at',
-  paranoid: true
+  updatedAt: 'updated_at'
 });
 
-module.exports = User;
+module.exports = UserAuth;
