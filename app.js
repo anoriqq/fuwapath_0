@@ -15,17 +15,17 @@ const Event = require('./models/event');
 const UserAuth = require('./models/userAuth');
 const UserStatus = require('./models/userStatus');
 const Status = require('./models/Statuses');
-User.sync().then(()=>{
-  UserAuth.belongsTo(User, {foreignKey: 'user_id'});
+User.sync().then(() => {
+  UserAuth.belongsTo(User, { foreignKey: 'user_id' });
   UserAuth.sync();
-  UserStatus.belongsTo(User, {foreignKey: 'user_id'});
+  UserStatus.belongsTo(User, { foreignKey: 'user_id' });
   UserStatus.sync();
-  Event.belongsTo(User, {foreignKey: 'user_id'});
+  Event.belongsTo(User, { foreignKey: 'user_id' });
   Event.sync();
-  Status.sync().then(()=>{
-    Event.belongsTo(Status, {foreignKey: 'status_code'});
+  Status.sync().then(() => {
+    Event.belongsTo(Status, { foreignKey: 'status_code' });
     Event.sync();
-    UserStatus.belongsTo(Status, {foreignKey: 'status_code'});
+    UserStatus.belongsTo(Status, { foreignKey: 'status_code' });
     UserStatus.sync();
   });
 });
@@ -42,31 +42,40 @@ passport.deserializeUser(function(obj, done){
   done(null, obj);
 });
 
-passport.use(new SlackStrategy({
-  clientID: SLACK_CLIENT_ID,
-  clientSecret: SLACK_CLIENT_SECRET,
-  skipUserProfile: false,
-  scope: ['identity.basic', 'identity.email', 'identity.avatar', 'identity.team']
-},
-(accessToken, refreshToken, profile, done)=>{
-  process.nextTick(function(){
-    User.upsert({
-      user_id: profile.id,
-      user_name: profile.user.name,
-      team_id: profile.team.id,
-      team_name: profile.team.name
-    }).then(()=>{
-      done(null, profile);
-    });
-  });
-}
-));
+passport.use(
+  new SlackStrategy(
+    {
+      clientID: SLACK_CLIENT_ID,
+      clientSecret: SLACK_CLIENT_SECRET,
+      skipUserProfile: false,
+      scope: [
+        'identity.basic',
+        'identity.email',
+        'identity.avatar',
+        'identity.team'
+      ]
+    },
+    (accessToken, refreshToken, profile, done) => {
+      process.nextTick(function(){
+        User.upsert({
+          user_id: profile.id,
+          user_name: profile.user.name,
+          team_id: profile.team.id,
+          team_name: profile.team.name
+        }).then(() => {
+          done(null, profile);
+        });
+      });
+    }
+  )
+);
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const logoutRouter = require('./routes/logout');
 const eventRouter = require('./routes/event');
 const signupRouter = require('./routes/signup');
+const authRouter = require('./routes/auth');
 
 const app = express();
 app.use(helmet());
@@ -81,7 +90,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -90,9 +105,7 @@ app.use('/user', userRouter);
 app.use('/logout', logoutRouter);
 app.use('/event', eventRouter);
 app.use('/signup', signupRouter);
-
-app.get('/auth/slack', passport.authenticate('Slack'));
-app.get('/auth/slack/callback', passport.authenticate('Slack', {failureRedirect: '/index'}), (req, res)=>res.redirect('/'));
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){
