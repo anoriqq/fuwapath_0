@@ -1,0 +1,11 @@
+extends _head
+
+block body
+  p サインアップ
+    form(action="/signup", method="post")
+      p ユーザー名
+        input(type="text", name="userName" value=data.userName)
+      p メールアドレス
+        input(type="email", name="email" value=data.email)
+      p パスワード
+        input(type="password", name="password" value=data.password)

@@ -1,7 +1,15 @@
-extends _layout
+extends _head
 
-block content
+block body
   if user
-    a(href="/user").btn.btn-primary ユーザーページでステータスを確認
+    h5 行動ログ
+    div#log-table
   else
-    button(type="button" data-toggle="modal" data-target="#loginModal")#login-button.btn.btn-secondary ログインしてステータスを更新
+    form(action="/signup", method="post")
+      p ユーザー名:
+        input(type="text", name="userName")
+      p メールアドレス:
+        input(type="email", name="email")
+      p パスワード:
+        input(type="password", name="password")
+      button(type="submit") 新規登録

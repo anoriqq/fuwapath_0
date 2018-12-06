@@ -66,6 +66,7 @@ const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const logoutRouter = require('./routes/logout');
 const eventRouter = require('./routes/event');
+const signupRouter = require('./routes/signup');
 
 const app = express();
 app.use(helmet());
@@ -88,6 +89,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/logout', logoutRouter);
 app.use('/event', eventRouter);
+app.use('/signup', signupRouter);
 
 app.get('/auth/slack', passport.authenticate('Slack'));
 app.get('/auth/slack/callback', passport.authenticate('Slack', {failureRedirect: '/index'}), (req, res)=>res.redirect('/'));

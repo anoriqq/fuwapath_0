@@ -12,6 +12,9 @@ const User = loader.database.define('users', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  token: {
+    type: Sequelize.STRING
+  },
   created_at:Sequelize.DATE,
   updated_at:Sequelize.DATE,
   deleted_at:Sequelize.DATE
