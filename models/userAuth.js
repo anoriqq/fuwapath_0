@@ -3,16 +3,20 @@ const loader = require('./_sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const UserAuth = loader.database.define('user_auth', {
-  user_id: {
+  username: {
     type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },
-  login_id: {
+  user_id: {
     type: Sequelize.STRING,
     allowNull: false
   },
   password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
     type: Sequelize.STRING,
     allowNull: false
   },

@@ -1,0 +1,16 @@
+extends _head
+
+block body
+  if user
+    p 現在 #{user.username} でログイン中
+  form(action="/login", method="post")
+    div
+      label
+        p ユーザー名:
+        input(type="text", name="username")
+    div
+      label
+        p パスワード:
+        input(type="password", name="password")
+    div
+      button(type="submit") ログイン

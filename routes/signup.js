@@ -34,24 +34,21 @@ router.post('/', function(req, res, next){
   const token = crypto.randomBytes(16).toString('hex');
   User.create({
     user_id: userId,
-    user_name: userName,
+    username: userName,
     token: token
-  })
-    .then(() => {
-      UserAuth.create({
-        login_id: userName,
-        user_id: userId,
-        password: password,
-        email: email
-      });
-    })
-    .then(() => {
+  }).then(() => {
+    UserAuth.create({
+      username: userName,
+      user_id: userId,
+      password: password,
+      email: email
+    }).then(() => {
       const mailOptions = {
         from: 'fuwafuwa info <marimo.9863@gmail.com>',
         to: req.body.email,
         subject: 'fuwafuwaアカウントの確認',
         html:
-          '<p>以下のリンクからアカウントの確認を行ってください｡</p><br><a href="localhost:8000/auth/email/' + token + '">アカウントを確認</a>'
+            '<p>以下のリンクからアカウントの確認を行ってください｡</p><br><a href="localhost:8000/auth/email/' + token + '">アカウントを確認</a>'
       };
       transporter.sendMail(mailOptions, (err, info) => {
         if (err){
@@ -62,6 +59,7 @@ router.post('/', function(req, res, next){
         }
       });
     });
+  });
 });
 
 module.exports = router;

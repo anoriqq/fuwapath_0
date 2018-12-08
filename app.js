@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+// パッケージの読み込み
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -30,52 +31,45 @@ User.sync().then(() => {
   });
 });
 
-const SlackStrategy = require('passport-slack-oauth2').Strategy;
-const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
-const SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
+// パスポートのストラテジーを設定
+const LocalStrategy = require('passport-local').Strategy;
 
+// セッション関連
 passport.serializeUser(function(user, done){
-  done(null, user);
+  done(null, user.user_id);
+});
+passport.deserializeUser(function(userId, done){
+  UserAuth.findOne({where:{user_id:userId}}).then((user)=>{
+    done(null, user);
+  });
 });
 
-passport.deserializeUser(function(obj, done){
-  done(null, obj);
-});
+passport.use(new LocalStrategy(
+  function(username, password, done){
+    UserAuth.findOne({
+      where:{username: username}
+    }).then(user=>{
+      if (!user){
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.password !== password){
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    }).catch(err=>{
+      return done(err, false);
+    });
+  }
+));
 
-passport.use(
-  new SlackStrategy(
-    {
-      clientID: SLACK_CLIENT_ID,
-      clientSecret: SLACK_CLIENT_SECRET,
-      skipUserProfile: false,
-      scope: [
-        'identity.basic',
-        'identity.email',
-        'identity.avatar',
-        'identity.team'
-      ]
-    },
-    (accessToken, refreshToken, profile, done) => {
-      process.nextTick(function(){
-        User.upsert({
-          user_id: profile.id,
-          user_name: profile.user.name,
-          team_id: profile.team.id,
-          team_name: profile.team.name
-        }).then(() => {
-          done(null, profile);
-        });
-      });
-    }
-  )
-);
-
+// ルーター読み込み
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const logoutRouter = require('./routes/logout');
 const eventRouter = require('./routes/event');
 const signupRouter = require('./routes/signup');
 const authRouter = require('./routes/auth');
+const loginRouter = require('./routes/login');
 
 const app = express();
 app.use(helmet());
@@ -90,22 +84,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-  })
-);
+app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// ルート設定
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/logout', logoutRouter);
 app.use('/event', eventRouter);
 app.use('/signup', signupRouter);
 app.use('/auth', authRouter);
+app.use('/login', loginRouter);
+
+app.post('/login', passport.authenticate('local', {failureRedirect: '/login'}), (req, res, next)=>res.redirect('/'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){
