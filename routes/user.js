@@ -13,7 +13,7 @@ router.get('/', authenticationEnsurer, function(req, res, next){
       attributes: ['status_code', 'status_name']
     }],
     where:{
-      user_id: req.user.user.id
+      user_id: req.user.user_id
     },
     order: [['"event_id"', 'DESC']]
   }).then((events)=>{
