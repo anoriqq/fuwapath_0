@@ -1,26 +1,4 @@
 extends _head
 
 block body
-  h3 #{user.user.name} さんのユーザーページ
-  h1 現在のステータス
-  form
-    div.input-group
-      select#status-code-form.custom-select
-        option(value="-1" selected) ステータス
-        option(value="1") 睡眠
-        option(value="2") 食事
-        option(value="3") 歯磨き
-        option(value="4") 運動
-        option(value="5") 風呂
-        option(value="6") 勉強
-        option(value="7") 外出
-        option(value="0") その他
-      select#status-sub-form.custom-select
-        option(value="-1" selected)
-        option(value="1") 開始
-        option(value="2") 終了
-        option(value="3") その他
-      div.input-group-append
-        button(type="button")#status-add-button.btn.btn-outline-light 記録
-  h5 行動ログ
-  div#log-table
+  p #{user.user.name} さんのユーザーページ
