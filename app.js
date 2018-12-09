@@ -15,7 +15,25 @@ const User = require('./models/user');
 const Event = require('./models/event');
 const UserAuth = require('./models/userAuth');
 const UserStatus = require('./models/userStatus');
+const UserTmp = require('./models/userTmp');
 const Status = require('./models/Statuses');
+
+// ルーター読み込み
+const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
+const logoutRouter = require('./routes/logout');
+const eventRouter = require('./routes/event');
+const signupRouter = require('./routes/signup');
+const authRouter = require('./routes/auth');
+const loginRouter = require('./routes/login');
+
+// パスポートのストラテジー作成
+const LocalStrategy = require('passport-local').Strategy;
+
+// アプリケーション作成
+const app = express();
+
+// モデルのリレーション設定
 User.sync().then(() => {
   UserAuth.belongsTo(User, { foreignKey: 'user_id' });
   UserAuth.sync();
@@ -28,13 +46,11 @@ User.sync().then(() => {
     Event.sync();
     UserStatus.belongsTo(Status, { foreignKey: 'status_code' });
     UserStatus.sync();
+    UserTmp.sync();
   });
 });
 
-// パスポートのストラテジーを設定
-const LocalStrategy = require('passport-local').Strategy;
-
-// セッション関連
+// セッション
 passport.serializeUser(function(user, done){
   done(null, user.user_id);
 });
@@ -44,6 +60,7 @@ passport.deserializeUser(function(userId, done){
   });
 });
 
+// ユーザー認証
 passport.use(new LocalStrategy(
   function(username, password, done){
     UserAuth.findOne({
@@ -62,28 +79,17 @@ passport.use(new LocalStrategy(
   }
 ));
 
-// ルーター読み込み
-const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
-const logoutRouter = require('./routes/logout');
-const eventRouter = require('./routes/event');
-const signupRouter = require('./routes/signup');
-const authRouter = require('./routes/auth');
-const loginRouter = require('./routes/login');
-
-const app = express();
-app.use(helmet());
-
-// view engine setup
+// view設定
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// アプリケーション設定
+app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -96,7 +102,6 @@ app.use('/event', eventRouter);
 app.use('/signup', signupRouter);
 app.use('/auth', authRouter);
 app.use('/login', loginRouter);
-
 app.post('/login', passport.authenticate('local', {failureRedirect: '/login'}), (req, res, next)=>res.redirect('/'));
 
 // catch 404 and forward to error handler
