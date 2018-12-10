@@ -9,6 +9,7 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('passport');
+const crypto = require('crypto');
 
 // モデルの読み込み
 const User = require('./models/user');
@@ -63,13 +64,14 @@ passport.deserializeUser(function(userId, done){
 // ユーザー認証
 passport.use(new LocalStrategy(
   function(username, password, done){
+    const hashedPassword = hashing(password);
     UserAuth.findOne({
       where:{username: username}
     }).then(user=>{
       if (!user){
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (user.password !== password){
+      if (user.password !== hashedPassword){
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
@@ -119,5 +121,13 @@ app.use(function(err, req, res, next){
   res.status(err.status || 500);
   res.render('error');
 });
+
+// ハッシュ化関数
+function hashing(data){
+  const shasum = crypto.createHash('sha1');
+  shasum.update(data);
+  let hash = shasum.digest('hex');
+  return hash;
+}
 
 module.exports = app;

@@ -1,20 +1,23 @@
 extends _head
 
 block body
-  form(action="/signup", method="post")
-    div
-      label
-        p ユーザー名:
-          input(type="text", name="username")
-    div
-      label
-        p メールアドレス:
-          input(type="email", name="email")
-    div
-      label
-        p パスワード:
-          input(type="password", name="password")
-    div
-      button(type="submit") サインアップ
-  p または
-    a(href="/login") ログイン
+  if title == 'アカウントの確認 | fuwafuwa'
+    p アカウント確認メールを送信しました｡メール内のリンクから認証を行っってください｡
+  else
+    form(action="/signup", method="post")
+      div
+        label
+          p ユーザー名:
+            input(type="text", name="username")
+      div
+        label
+          p メールアドレス:
+            input(type="email", name="email")
+      div
+        label
+          p パスワード:
+            input(type="password", name="password")
+      div
+        button(type="submit") サインアップ
+    p または
+      a(href="/login") ログイン

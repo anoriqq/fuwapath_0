@@ -3,7 +3,7 @@ extends _head
 block body
   if user
     p 現在 #{user.username} でログイン中
-    h5 行動ログ
+    h5 イベントログ
     div#log-table
   else
     form(action="/signup", method="post")
@@ -13,7 +13,7 @@ block body
         input(type="email", name="email")
       p パスワード:
         input(type="password", name="password")
-      button(type="submit") 新規登録
+      button(type="submit") サインアップ
     p または
     form(action="/login", method="post")
       p ユーザー名:
