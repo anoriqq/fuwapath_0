@@ -43,13 +43,12 @@ router.post('/', function(req, res, next){
     token: hashedToken
   }).then(() => {
     params.to = email;
-    params.html = '<p>以下のリンクからアカウントの確認を行ってください｡</p><br><a href="localhost:8000/auth/email/' + token + '">アカウントを確認</a>';
+    params.html = '<p>以下のリンクからアカウントの確認を行ってください｡</p><br><a href="http://localhost:8000/auth/email/' + token + '">アカウントを確認</a><br><p>登録をした覚えが無い場合はこのメールを破棄してください｡</p>';
     transporter.sendMail(params, (err, info) => {
       if (err){
         console.log(err);
       } else {
-        console.log('Message sent: ' + info.accepted);
-        res.render('signup', { title: 'アカウントの確認 | fuwapath' });
+        res.render('signup', { title: 'アカウントの確認 | fuwapath', email: email });
       }
     });
   });
