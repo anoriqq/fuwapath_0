@@ -10,6 +10,7 @@ const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('passport');
 const crypto = require('crypto');
+const flash = require('connect-flash');
 
 // モデルの読み込み
 const User = require('./models/user');
@@ -62,21 +63,29 @@ passport.deserializeUser(function(userId, done){
 });
 
 // ユーザー認証
-passport.use(new LocalStrategy(
-  function(username, password, done){
-    const hashedPassword = hashing(password);
-    UserAuth.findOne({
-      where:{username: username}
-    }).then(user=>{
-      if (!user){
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (user.password !== hashedPassword){
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    }).catch(err=>{
-      return done(err, false);
+passport.use(new LocalStrategy({passReqToCallback: true},
+  function(req, username, password, done){
+    process.nextTick(()=>{
+      const hashedPassword = hashing(password);
+      UserAuth.findOne({
+        where:{username: username}
+      }).then(user=>{
+        if (!user){
+          req.flash('error', 'ユーザーが見つかりませんでした｡');
+          req.flash('input_username', username);
+          req.flash('input_password', password);
+          return done(null, false);
+        }
+        if (user.password !== hashedPassword){
+          req.flash('error', 'パスワードが間違っています｡');
+          req.flash('input_username', username);
+          req.flash('input_password', password);
+          return done(null, false);
+        }
+        return done(null, user);
+      }).catch(err=>{
+        return done(err, false);
+      });
     });
   }
 ));
@@ -95,6 +104,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // ルート設定
 app.use('/', indexRouter);
@@ -104,7 +114,6 @@ app.use('/event', eventRouter);
 app.use('/signup', signupRouter);
 app.use('/auth', authRouter);
 app.use('/login', loginRouter);
-app.post('/login', passport.authenticate('local', {failureRedirect: '/login'}), (req, res, next)=>res.redirect('/'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){

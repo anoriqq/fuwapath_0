@@ -5,15 +5,17 @@ block body
     p 現在 #{user.username} でログイン中
     a(href="/logout") ログアウト
   else
+    if error
+      p #{error}
     form(action="/login", method="post")
       div
         label
           p ユーザー名:
-            input(type="text", name="username")
+            input(type="text", name="username" value=input_username[0])
       div
         label
           p パスワード:
-            input(type="password", name="password")
+            input(type="password", name="password" value=input_password[0])
       div
         button(type="submit") ログイン
     p または
