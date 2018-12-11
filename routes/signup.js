@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-// パッケージの読み込み
+// モジュールの読み込み
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
@@ -18,13 +18,13 @@ const transporter = nodemailer.createTransport({
   }
 });
 const mailOptions = {
-  from: 'fuwafuwa info <marimo.9863@gmail.com>',
-  subject: 'fuwafuwaアカウントの確認'
+  from: 'fuwapath info <marimo.9863@gmail.com>',
+  subject: 'fuwapathアカウントの確認'
 };
 
 // '~/signup'にGETアクセスが来たときの処理
 router.get('/', function(req, res, next){
-  res.render('signup', { title: 'Sign up | fuwafuwa' });
+  res.render('signup', { title: 'Sign up | fuwapath' });
 });
 
 // '~/signup'にPOSTアクセスが来たときの処理
@@ -47,7 +47,7 @@ router.post('/', function(req, res, next){
         console.log(err);
       } else {
         console.log('Message sent: ' + info.accepted);
-        res.render('signup', { title: 'アカウントの確認 | fuwafuwa' });
+        res.render('signup', { title: 'アカウントの確認 | fuwapath' });
       }
     });
   });

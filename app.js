@@ -19,7 +19,7 @@ const UserStatus = require('./models/userStatus');
 const UserTmp = require('./models/userTmp');
 const Status = require('./models/Statuses');
 
-// ルーター読み込み
+// ルーターの読み込み
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const logoutRouter = require('./routes/logout');
