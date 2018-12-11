@@ -5,20 +5,22 @@ const router = express.Router();
 // モジュールの読み込み
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 
 // モデルの読み込み
 const UserTmp = require('../models/userTmp');
 
 // メール送信設定
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+const transporter = nodemailer.createTransport(smtpTransport({
+  host: 'smtp.lolipop.jp',
+  port: 587,
   auth: {
     user: process.env.EMAIL_ADDRESS,
     pass: process.env.EMAIL_PASS
   }
-});
-const mailOptions = {
-  from: 'fuwapath info <marimo.9863@gmail.com>',
+}));
+const params = {
+  from: 'fuwapath info < ' + process.env.EMAIL_ADDRESS + '>',
   subject: 'fuwapathアカウントの確認'
 };
 
@@ -40,9 +42,9 @@ router.post('/', function(req, res, next){
     password: password,
     token: hashedToken
   }).then(() => {
-    mailOptions.to = email;
-    mailOptions.html = '<p>以下のリンクからアカウントの確認を行ってください｡</p><br><a href="localhost:8000/auth/email/' + token + '">アカウントを確認</a>';
-    transporter.sendMail(mailOptions, (err, info) => {
+    params.to = email;
+    params.html = '<p>以下のリンクからアカウントの確認を行ってください｡</p><br><a href="localhost:8000/auth/email/' + token + '">アカウントを確認</a>';
+    transporter.sendMail(params, (err, info) => {
       if (err){
         console.log(err);
       } else {
