@@ -2,9 +2,27 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET home page. */
+// モデルの読み込み
+const Status = require('../models/statuses');
+const UserStatus = require('../models/userStatus');
+
+// '~/' にGETアクセスが来たときの処理
 router.get('/', function(req, res, next){
-  res.render('index', { title: 'fuwapath', user: req.user });
+  Status.findAll(
+  ).then(status=>{
+    UserStatus.findAll({
+      where:{
+        user_id: req.user_id
+      }
+    }).then(userStatus=>{
+      res.render('index', {
+        title: 'fuwapath',
+        user: req.user,
+        status: status,
+        userStatus: userStatus
+      });
+    });
+  });
 });
 
 module.exports = router;
