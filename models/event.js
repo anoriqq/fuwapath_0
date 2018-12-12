@@ -6,8 +6,7 @@ const Event = loader.database.define('events', {
   event_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
-    allowNull: false
+    autoIncrement: true
   },
   user_id: {
     type: Sequelize.STRING,

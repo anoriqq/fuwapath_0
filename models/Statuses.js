@@ -4,9 +4,8 @@ const Sequelize = loader.Sequelize;
 
 const Statuses = loader.database.define('statuses', {
   status_code: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    allowNull: false
+    type: Sequelize.STRING,
+    primaryKey: true
   },
   status_name: {
     type: Sequelize.STRING,
