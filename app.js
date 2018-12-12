@@ -90,6 +90,23 @@ passport.use(new LocalStrategy({passReqToCallback: true},
   }
 ));
 
+// adminアカウントを追加
+setTimeout(()=>{
+  User.upsert({
+    user_id: 'admin',
+    username: process.env.ADMIN_USERNAME
+  }).then((admin)=>{
+    UserAuth.upsert({
+      username: process.env.ADMIN_USERNAME,
+      user_id: 'admin',
+      password: hashing(process.env.ADMIN_PASSWORD),
+      email: process.env.ADMIN_EMAIL
+    }).then(()=>{
+      if(admin) console.log('管理者ユーザー作成');
+    });
+  });
+}, 1000);
+
 // view設定
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
