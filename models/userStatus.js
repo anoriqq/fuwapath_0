@@ -16,12 +16,15 @@ const UserStatus = loader.database.define('user_status', {
     allowNull: false
   },
   created_at:Sequelize.DATE,
-  updated_at:Sequelize.DATE
+  updated_at:Sequelize.DATE,
+  deleted_at:Sequelize.DATE
 }, {
   freezeTableName: true,
   timestamps: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  updatedAt: 'updated_at',
+  deletedAt: 'deleted_at',
+  paranoid: true
 });
 
 module.exports = UserStatus;
