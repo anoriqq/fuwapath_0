@@ -1,5 +1,13 @@
 extends _head
 
 block body
-  p #{user.username} さんのユーザーページ
-  h4 ユーザー設定
+  if user.user_id == 'admin'
+    p 管理者ページ
+  else
+    p #{user.username} さんのユーザーページ
+    h4 ユーザー設定
+    form(action="/user/status", method="post")
+      label
+        p 追加するステータス名
+          input(type="text", name="statusName")
+          button(type="submit") 追加
