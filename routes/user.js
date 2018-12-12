@@ -1,26 +1,15 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const authenticationEnsurer = require('./_authentication-ensurer');
-const Event = require('../models/event');
-const Statuses = require('../models/Statuses');
 
-/* GET user listing. */
+// モジュールの読み込み
+const authenticationEnsurer = require('./_authentication-ensurer');
+
+// ~/user にGETアクセスが来たときの処理
 router.get('/', authenticationEnsurer, function(req, res, next){
-  Event.findAll({
-    include:[{
-      model: Statuses,
-      attributes: ['status_code', 'status_name']
-    }],
-    where:{
-      user_id: req.user.user_id
-    },
-    order: [['"event_id"', 'DESC']]
-  }).then((events)=>{
-    res.render('user', {
-      title: 'ユーザーページ',
-      user: req.user
-    });
+  res.render('user', {
+    title: 'ユーザーページ | fuwapath',
+    user: req.user
   });
 });
 
