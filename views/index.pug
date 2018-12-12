@@ -7,17 +7,29 @@ block body
     div#log-table
   else
     form(action="/signup", method="post")
-      p ユーザー名:
-        input(type="text", name="username")
-      p メールアドレス:
-        input(type="email", name="email")
-      p パスワード:
-        input(type="password", name="password")
-      button(type="submit") サインアップ
+      div
+        label
+          p ユーザー名:
+            input(type="text", name="username")
+      div
+        label
+          p メールアドレス:
+            input(type="email", name="email")
+      div
+        label
+          p パスワード:
+            input(type="password", name="password")
+      div
+        button(type="submit") サインアップ
     p または
     form(action="/login", method="post")
-      p ユーザー名:
-        input(type="text", name="username")
-      p パスワード:
-        input(type="password", name="password")
-      button(type="submit") ログイン
+      div
+        label
+          p ユーザー名:
+            input(type="text", name="username")
+      div
+        label
+          p パスワード:
+            input(type="password", name="password")
+      div
+        button(type="submit") ログイン
