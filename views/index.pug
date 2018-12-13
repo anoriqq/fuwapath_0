@@ -4,7 +4,10 @@ block body
   if user
     p 現在 #{user.username} でログイン中
     h5 イベントログ
-    a(href="/user") ユーザーページ
+    div
+      a(href="/user") ユーザーページ
+    div
+      a(href="/logout") ログアウト
   else
     form(action="/signup", method="post")
       div
