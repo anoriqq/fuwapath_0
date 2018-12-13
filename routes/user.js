@@ -22,7 +22,7 @@ router.get('/', authenticationEnsurer, function(req, res, next){
 });
 
 // '~/user/status' にPUTアクセスが来たときの処理
-router.put('/userstatus', authenticationEnsurer, function(req, res, next){
+router.put('/status', authenticationEnsurer, function(req, res, next){
   const statusCode = crypto.randomBytes(8).toString('hex');
   UserStatus.create({
     status_code: statusCode,
@@ -33,8 +33,8 @@ router.put('/userstatus', authenticationEnsurer, function(req, res, next){
   });
 });
 
-// '~/user/setting' にPUTアクセスが来たときの処理
-router.put('/status', authenticationEnsurer, function(req, res, next){
+// '~/user/status' にPUTアクセスが来たときの処理
+router.put('/common-status', authenticationEnsurer, function(req, res, next){
   const statusName = req.body.statusName;
   console.log(statusName);
   if(req.user.user_id === 'admin' && statusName !== ''){

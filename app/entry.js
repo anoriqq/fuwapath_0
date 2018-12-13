@@ -8,7 +8,7 @@ btnAccountEdit.on('click', ()=>{
   const statusName = $('input[name="user_status_name"]').val();
   $.ajax({
     method:'PUT',
-    url: '/user/status',
+    url: '/user/common-status',
     data: {statusName: statusName}
   }).done(()=>{
     $('input[name="user_status_name"]').val('');
