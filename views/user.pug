@@ -3,6 +3,17 @@ extends _head
 block body
   if user.user_id == 'admin'
     p 管理者ページ
+    div
+      label
+        p 通常イベントを追加:
+          input(name="user_status_name" maxlength="30")
+          button(type="submit").btn-status-add 適用
+      div
+        p 既存のイベント
+        ul
+          each val in status
+            li
+              p= val.status_name
   else
     p #{user.username} さんのユーザーページ
     h4 ユーザー設定
