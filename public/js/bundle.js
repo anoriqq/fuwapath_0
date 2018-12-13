@@ -94,7 +94,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar global = Function('return this;')();\nglobal.jQuery = _jquery2.default;\n\n//# sourceURL=webpack:///./app/entry.js?");
+eval("\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar global = Function('return this;')();\nglobal.jQuery = _jquery2.default;\nvar btnAccountEdit = (0, _jquery2.default)('.btn-status-add');\nbtnAccountEdit.on('click', function () {\n  var statusName = (0, _jquery2.default)('input[name=\"user_status_name\"]').val();\n\n  _jquery2.default.ajax({\n    method: 'PUT',\n    url: '/user/status',\n    data: {\n      statusName: statusName\n    }\n  }).done(function () {\n    (0, _jquery2.default)('input[name=\"user_status_name\"]').val('');\n  });\n});\n\n//# sourceURL=webpack:///./app/entry.js?");
 
 /***/ }),
 
