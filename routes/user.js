@@ -21,7 +21,7 @@ router.get('/', authenticationEnsurer, function(req, res, next){
   });
 });
 
-// '~/user/status' にPOSTアクセスが来たときの処理
+// '~/user/status' にPUTアクセスが来たときの処理
 router.put('/userstatus', authenticationEnsurer, function(req, res, next){
   const statusCode = crypto.randomBytes(8).toString('hex');
   UserStatus.create({
