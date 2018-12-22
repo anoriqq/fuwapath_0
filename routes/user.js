@@ -33,7 +33,7 @@ router.put('/status', authenticationEnsurer, function(req, res, next){
   });
 });
 
-// '~/user/status' にPUTアクセスが来たときの処理
+// '~/user/common-status' にPUTアクセスが来たときの処理
 router.put('/common-status', authenticationEnsurer, function(req, res, next){
   const statusName = req.body.statusName;
   console.log(statusName);
@@ -50,6 +50,26 @@ router.put('/common-status', authenticationEnsurer, function(req, res, next){
   }else{
     res.end(404);
   }
+});
+
+// '/user/common-status' にGETアクセスが来たときの処理
+router.get('/common-status', authenticationEnsurer, function(req, res, next){
+  Status.findAll().then(status=>{
+    res.send(status);
+  });
+});
+
+// '/common-status/delete' にGETアクセスが来たときの処理
+router.post('/common-status/delete', authenticationEnsurer, function(req, res, next){
+  const statusCode = req.body.statusCode;
+  console.log(statusCode);
+  Status.destroy({
+    where:{
+      status_code: statusCode
+    }
+  }).then(()=>{
+    res.end();
+  });
 });
 
 module.exports = router;

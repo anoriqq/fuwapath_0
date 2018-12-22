@@ -10,10 +10,8 @@ block body
           button(type="submit").btn-status-add 適用
       div
         p 既存のイベント
-        ul
-          each val in status
-            li
-              p= val.status_name
+        form(action="/user/common-status/delete", method="post")
+          ul.ajax-list
   else
     p #{user.username} さんのユーザーページ
     h4 ユーザー設定
