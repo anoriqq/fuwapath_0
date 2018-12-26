@@ -1,0 +1,7 @@
+{
+  "name": "fuwapath",
+  "description": "Currently you alone can change you in the future, 'fuwapath' is a service that will support you now.",
+  "logo": "",
+  "keywords": ["node"],
+  "image": "heroku/nodejs"
+}
