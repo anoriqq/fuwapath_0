@@ -5,8 +5,7 @@ const Sequelize = loader.Sequelize;
 const UserAuth = loader.database.define('user_auth', {
   username: {
     type: Sequelize.STRING,
-    primaryKey: true,
-    allowNull: false
+    primaryKey: true
   },
   user_id: {
     type: Sequelize.STRING,

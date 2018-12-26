@@ -1,11 +1,14 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const authenticationEnsurer = require('./_authentication-ensurer');
-const Event = require('../models/event');
-const Statuses = require('../models/statuses');
-const moment = require('moment-timezone');
 
+// モジュールの読み込み
+const authenticationEnsurer = require('./_authentication-ensurer');
+
+// モデルの読み込み
+const Event = require('../models/event');
+
+// '~/event'にPOSTアクセスが来たときの処理
 router.post('/', authenticationEnsurer, (req, res, next)=>{
   const userId = req.user.user.id;
   const timestamp = new Date();
@@ -21,22 +24,9 @@ router.post('/', authenticationEnsurer, (req, res, next)=>{
   });
 });
 
+// '~/event/get'にGETアクセスが来たときの処理
 router.get('/get', authenticationEnsurer, (req, res, next)=>{
-  Event.findAll({
-    include:[{
-      model: Statuses,
-      attributes: ['status_code', 'status_name']
-    }],
-    where:{
-      user_id: req.user.user_id
-    },
-    order:[['"timestamp"', 'DESC']]
-  }).then((data)=>{
-    for(let i=0;i<data.length;i++){
-      data[i].dataValues.timestamp = moment.tz(data[i].createdAt, 'Asia/Tokyo').format();
-    }
-    res.json(data);
-  });
+  res.end();
 });
 
 module.exports = router;

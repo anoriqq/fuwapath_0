@@ -1,23 +1,37 @@
-extends _head
+extends layout/head.pug
 
 block body
+  include includes/navbar.pug
   if user
     p 現在 #{user.username} でログイン中
     h5 イベントログ
-    div#log-table
+    div
+      a(href="/user") ユーザーページ
+    div
+      a(href="/logout") ログアウト
   else
-    form(action="/signup", method="post")
-      p ユーザー名:
-        input(type="text", name="username")
-      p メールアドレス:
-        input(type="email", name="email")
-      p パスワード:
-        input(type="password", name="password")
-      button(type="submit") サインアップ
-    p または
-    form(action="/login", method="post")
-      p ユーザー名:
-        input(type="text", name="username")
-      p パスワード:
-        input(type="password", name="password")
-      button(type="submit") ログイン
+    div
+      div
+        div.container(style="background:#EEEEFF;padding:3%;margin:10% auto;text-align:center;box-shadow:4px 4px 5px #668AD8;")
+          h1 自分のこと､どれくらい知っていますか?
+          p fuwapathはあなたの行動を解析して､目標への道標となります｡
+      div(style="background:#ccfffb;margin:3% 0 3% 10%;")
+        div(style="padding:3%;margin:0 0 0 20%;")
+          h1 コンピューターによる個別最適化
+          p コンピューターが発達した今､皆が同じ行動をする必要はありません｡
+          p 行動の記録をとるだけであなたの生活を最適化する提案をします｡
+          p あなただけの生き方をfuwapathと一緒に見つけましょう｡
+      div(style="background:#ffffe6;margin:3% 10% 3% 0;")
+        div(style="padding:3%;margin:0 0 0 35%;")
+          h1 決断のタイミングを逃さない
+          p 人生は決断の繰り返しです｡
+          p ｢後でやろう｣と思ったことをfuwapathが適切なタイミングで｢今やろう｣に変えてくれます｡
+      div(style="background:#ffe6f4;margin:3% 0 3% 10%;")
+        div(style="padding:3%;margin:0 0 0 20%;")
+          h1 様々なチャットツールで気軽に使える
+          p fuwapathはLINEやSlackをはじめとする様々なチャットツールから人と話す感覚で使えます｡
+      div(style="background:#ccfffb;margin:3% 10% 3% 0;")
+        div(style="padding:3%;margin:0 0 0 45%;")
+          h1 現在開発中!
+          p サービス開始は2019年を予定しています｡
+    include includes/footer.pug

@@ -1,5 +1,5 @@
 {
-  "name": "express-test",
+  "name": "fuwapath",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "test": "mocha -t 10000"
   },
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~4.1.0",
     "dotenv": "^6.1.0",
@@ -20,13 +21,13 @@
     "moment-timezone": "^0.5.23",
     "morgan": "~1.9.1",
     "nodemailer": "^4.7.0",
+    "nodemailer-smtp-transport": "^2.7.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.6.1",
     "pg-hstore": "^2.3.2",
     "pug": "~2.0.3",
     "sequelize": "^4.41.2",
-    "tabulator-tables": "^4.1.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

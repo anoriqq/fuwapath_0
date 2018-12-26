@@ -1,7 +1,8 @@
-extends _head
+extends layout/head
 
 block body
-  if title == '認証成功 | fuwafuwa'
+  include includes/navbar.pug
+  if title == '認証成功 | fuwapath'
     p 認証に成功しました｡
       a(href="/login") ログイン
   else

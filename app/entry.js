@@ -2,36 +2,47 @@
 import $ from 'jquery';
 var global = Function('return this;')();
 global.jQuery = $;
-import Tabulator from 'tabulator-tables';
-import moment from 'moment-timezone';
-moment().tz('Asia/Tokyo');
 
-$('#status-add-button').click(() => {
-  const statusCode = $('#status-code-form').val();
-  const statusSub = $('#status-sub-form').val();
-  $.post('/event', { statusCode: statusCode, statusSub: statusSub }, data => {
-    table.setData();
+$('.btn-status-add').on('click', ()=>{
+  const statusName = $('input[name="user_status_name"]').val();
+  $.ajax({
+    method:'PUT',
+    url: '/user/common-status',
+    data: {statusName: statusName}
+  }).done(()=>{
+    $('input[name="user_status_name"]').val('');
+    updateAjaxList();
   });
 });
 
-var table_columns = [
-  {
-    title: 'タイムスタンプ',
-    field: 'timestamp',
-    sorter: 'datetime',
-    sorterParams: { format: 'YYYY-MM-DD hh:mm:ss' },
-    formatter: 'datetime',
-    formatterParams: {
-      outputFormat: 'llll:ss',
-      invalidPlaceholder: '(invalid date)'
+function updateAjaxList(){
+  $.ajax({
+    method: 'GET',
+    url: '/user/common-status'
+  }).then(data=>{
+    $('.ajax-list').empty();
+    for(let i=0;i<data.length;i++){
+      $('.ajax-list').append(`<li><p>${data[i].status_name}<button type="button" class="btn-delete-status" data-status-code="${data[i].status_code}">削除</button></p></li>`);
     }
-  },
-  { title: 'ステータス', field: 'status.status_name', align: 'center' }
-];
+    $('.btn-delete-status').each((i, e)=>{
+      const btn = $(e);
+      btn.click(()=>{
+        const statusCode = btn.data('status-code');
+        $.ajax({
+          method: 'POST',
+          url: '/user/common-status/delete',
+          data: {
+            statusCode: statusCode
+          }
+        }).then(()=>{
+          updateAjaxList();
+        });
+      });
+    });
+  });
+}
 
-var table = new Tabulator('#log-table', {
-  columns: table_columns,
-  ajaxURL: 'http://localhost:8000/event/get',
-  layout: 'fitColumns',
-  placeholder: 'ログがありません'
-});
+var ajaxList = $('.ajax-list');
+if(ajaxList.length){
+  updateAjaxList();
+}

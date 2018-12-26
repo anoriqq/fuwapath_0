@@ -11,6 +11,7 @@ const UserTmp = require('../models/userTmp');
 const User = require('../models/user');
 const UserAuth = require('../models/userAuth');
 
+// '~/auth/email/:token'にGETアクセスが来たときの処理
 router.get('/email/:token', function(req, res, next){
   const token = hashing(req.params.token);
   UserTmp.findOne({
@@ -38,12 +39,12 @@ router.get('/email/:token', function(req, res, next){
               email: email
             }
           }).then(()=>{
-            res.render('auth', { title: '認証成功 | fuwafuwa' });
+            res.render('auth', { title: '認証成功 | fuwapath' });
           });
         });
       });
     } else {
-      res.render('auth', { title: '認証失敗 | fuwafuwa' });
+      res.render('auth', { title: '認証失敗 | fuwapath' });
     }
   });
 });
