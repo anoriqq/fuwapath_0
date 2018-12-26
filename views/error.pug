@@ -1,6 +1,7 @@
-extends _head
+extends layout/head
 
 block body
+  include includes/navbar.pug
   h1= message
   h2= error.status
   pre #{error.stack}

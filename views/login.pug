@@ -1,6 +1,7 @@
-extends _head
+extends layout/head
 
 block body
+  include includes/navbar.pug
   if user
     p 現在 #{user.username} でログイン中
     a(href="/logout") ログアウト
