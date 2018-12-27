@@ -18,7 +18,7 @@ const Event = require('./models/event');
 const UserAuth = require('./models/userAuth');
 const UserStatus = require('./models/userStatus');
 const UserTmp = require('./models/userTmp');
-const Status = require('./models/Statuses');
+const Status = require('./models/statuses');
 
 // ルーターの読み込み
 const indexRouter = require('./routes/index');
