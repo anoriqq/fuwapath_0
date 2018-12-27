@@ -23,6 +23,7 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
     "morgan": "~1.9.1",
+    "newrelic": "^4.13.0",
     "nodemailer": "^4.7.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "passport": "^0.4.0",
