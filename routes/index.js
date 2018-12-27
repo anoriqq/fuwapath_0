@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // モデルの読み込み
-const Status = require('../models/statuses');
+const Status = require('../models/Statuses');
 const UserStatus = require('../models/userStatus');
 
 // '~/' にGETアクセスが来たときの処理
