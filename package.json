@@ -17,7 +17,7 @@
     "helmet": "3.22.0",
     "http-errors": "1.7.3",
     "jquery": "3.5.0",
-    "moment": "2.25.1",
+    "moment": "2.25.3",
     "moment-timezone": "0.5.28",
     "morgan": "1.10.0",
     "nodemailer": "4.7.0",
