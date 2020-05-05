@@ -28,7 +28,7 @@
     "pg-hstore": "2.3.3",
     "pug": "2.0.4",
     "sequelize": "4.44.4",
-    "uuid": "3.4.0"
+    "uuid": "8.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",
